@@ -3,6 +3,7 @@ package ru.geekbrains.DaoSecurity.entities;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Data
@@ -15,4 +16,10 @@ public class Role {
 
     @Column(name="name")
     private String name;
+
+    @ManyToMany
+    @JoinTable(name = "users_authorities",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id"))
+    private Collection<Authority> authorities;
 }
