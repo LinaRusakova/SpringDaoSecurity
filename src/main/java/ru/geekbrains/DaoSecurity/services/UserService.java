@@ -16,7 +16,6 @@ import ru.geekbrains.DaoSecurity.repositories.RoleRepository;
 import ru.geekbrains.DaoSecurity.repositories.UserRepository;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -46,16 +45,13 @@ public class UserService implements UserDetailsService {
         User user = findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
         return new org.springframework.security.core.userdetails.User(user.getUsername(),
                 user.getPassword(),
-                mapRolesToAuthorities(user.getRoles())
-//                        .addAll(
-//                                getAllAuthorities(role.getAuthorities())))
-        );
+                mapRolesToAuthorities(user.getRoles(), user.getAuthorities()));
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-    }
-    private Collection<? extends GrantedAuthority> getAllAuthorities(Collection<Authority> authorities) {
-        return authorities.stream().map(authority -> new SimpleGrantedAuthority(authority.getName())).collect(Collectors.toList());
-    }
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles, Collection<Authority> authorities) {
+        Collection<SimpleGrantedAuthority> resultAuthority= roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+        resultAuthority.addAll(authorities.stream().map(authority -> new SimpleGrantedAuthority(authority.getName())).collect(Collectors.toList()));
+        return resultAuthority;
+    };
+
 }

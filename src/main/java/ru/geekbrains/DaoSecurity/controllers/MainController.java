@@ -24,8 +24,9 @@ public class MainController {
     }
 
     @GetMapping("/admin")
-    public String pageForAdminRoles() {
-        return "Admin's page of web service";
+    public String pageForAdminRoles(Principal principal) {
+        User user = userService.findByUsername(principal.getName()).orElseThrow(() -> new RuntimeException("Unable to find user by username: " + principal.getName()));
+        return "Admin's page of web service for: " + user.getUsername() + " : " + user.getEmail();
     }
 
     @GetMapping("/user")
@@ -35,7 +36,7 @@ public class MainController {
 
 
     }
-    @GetMapping("/read")
+        @GetMapping("/read")
     public String pageForReadDataAuthority() {
         return "read data service";
     }

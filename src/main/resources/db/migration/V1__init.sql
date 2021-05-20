@@ -48,14 +48,15 @@ values
 
 insert into users (username, password, email)
 values
-('user', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user@gmail.com');
+('user', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user@gmail.com'),
+('admin', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'admin@gmail.com');
 
 insert into users_authorities (user_id, authority_id )
 values
 (1, 1),
-(1, 2);
+(2, 2);
 
 insert into users_roles (user_id, role_id)
 values
 (1, 1),
-(1, 2);
+(2, 2);
