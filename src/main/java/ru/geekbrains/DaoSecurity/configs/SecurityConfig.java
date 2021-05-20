@@ -14,7 +14,9 @@ import ru.geekbrains.DaoSecurity.services.UserService;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     private final UserService userService;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
@@ -24,8 +26,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/read/**").hasAnyAuthority("READ_DATA", "MANAGE_DATA")
                 .antMatchers("/manage/**").hasAuthority("MANAGE_DATA")
                 .and()
+                .formLogin()
+                .and()
                 .logout().logoutSuccessUrl("/");
     }
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
